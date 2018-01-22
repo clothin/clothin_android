@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FontView">
+        <attr name="customFont" format="string">
+            <flag name="LatoRegular" value="1"/>
+            <flag name="LatoItalic" value="11"/>
+            <flag name="LatoLight" value="2"/>
+            <flag name="LatoLightItalic" value="21"/>
+            <flag name="LatoThin" value="3"/>
+            <flag name="LatoThinItalic" value="31"/>
+            <flag name="LatoBold" value="4"/>
+            <flag name="LatoBoldItalic" value="41"/>
+            <flag name="LatoBlack" value="5"/>
+            <flag name="LatoBlackItalic" value="51"/>
+            <flag name="LatoHeavy" value="6"/>
+            <flag name="LatoHeavyItalic" value="61"/>
+            <flag name="LatoMedium" value="7"/>
+            <flag name="LatoMediumItalic" value="71"/>
+        </attr>
+    </declare-styleable>
+</resources>
