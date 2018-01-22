@@ -3,7 +3,11 @@ package si.cit.clothingorigin.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import timber.log.Timber;
@@ -19,7 +23,13 @@ public class CodeScannerActivity extends BaseActivity implements ZXingScannerVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        List<BarcodeFormat> formatList = new ArrayList<>();
+        formatList.add(BarcodeFormat.QR_CODE);
+
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+        mScannerView.setAutoFocus(true);
+        mScannerView.setFormats(formatList);
         setContentView(mScannerView);                // Set the scanner view as the content view
 
         setTitle("Product code scanner");
