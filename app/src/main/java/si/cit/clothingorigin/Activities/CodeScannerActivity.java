@@ -24,6 +24,7 @@ public class CodeScannerActivity extends BaseActivity implements ZXingScannerVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setResult(RESULT_CANCELED);
         List<BarcodeFormat> formatList = new ArrayList<>();
         formatList.add(BarcodeFormat.QR_CODE);
 

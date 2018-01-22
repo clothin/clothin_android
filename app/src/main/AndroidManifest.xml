@@ -27,6 +27,7 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".Activities.MainActivity"
             tools:ignore="InnerclassSeparator" />
+
         <activity android:name=".Activities.CodeScannerActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".Activities.MainActivity"

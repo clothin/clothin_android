@@ -143,7 +143,12 @@ public class MainActivity extends BaseActivity
                 if(resultCode==RESULT_OK){
                     String scanData = data.getStringExtra("scan_data");
                     showAlertDialog("Scan result: "+scanData);
-                    //TODO check for scanned data on the BC
+                    if(scanData.startsWith("CLO_")) {
+                        //check for scanned data on the BC. If product id schema is correct, display product details page
+                        Intent productIntent = new Intent(getApplicationContext(),ItemDetailsActivity.class);
+                        productIntent.putExtra("product_id",scanData.substring(4));
+                        startActivityForResult(productIntent,ItemDetailsActivity.ACTIVITY_REQUEST_CODE_PRODUCT);
+                    }
                 }
                 break;
         }
