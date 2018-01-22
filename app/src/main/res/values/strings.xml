@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Clothing origin</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="default_loading_dialog_message">Loading…</string>
+    <string name="content_retrieval_failed_alert_message">There was an error while retrieving your requested content. Please try again later.</string>
+</resources>
