@@ -4,6 +4,9 @@
     package="si.cit.clothingorigin">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".CitApp"
@@ -23,12 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ItemDetailsActivity"
+
+        <activity
+            android:name=".Activities.ItemDetailsActivity"
+            android:label="Product details"
             android:screenOrientation="portrait"
             android:parentActivityName=".Activities.MainActivity"
             tools:ignore="InnerclassSeparator" />
 
-        <activity android:name=".Activities.CodeScannerActivity"
+        <activity
+            android:name=".Activities.CodeScannerActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".Activities.MainActivity"
             tools:ignore="InnerclassSeparator" />
