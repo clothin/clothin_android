@@ -10,9 +10,9 @@ import java.util.List;
 
 public class Product {
 
-    long id;
-    String title, size, color, price, picture_url, sold_by, materials, weight;
-    List<Producer> production_chain;
+    public long id;
+    public String title, size, color, price, picture_url, sold_by, materials, weight;
+    public List<Producer> production_chain;
 
     public static Product fakeProduct0(){
         Product product = new Product();

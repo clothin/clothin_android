@@ -7,8 +7,8 @@ package si.cit.clothingorigin.Objects;
 
 public class Producer {
 
-    long id;
-    String name, country, service;
+    public long id;
+    public String name, country, service;
 
     public static Producer fakeProducer(int index){
         String[] fakeCountries = {"China","Iran","USA","Philipines","Slovenia"};
