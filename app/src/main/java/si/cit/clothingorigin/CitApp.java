@@ -1,19 +1,17 @@
 package si.cit.clothingorigin;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 
-import si.cit.clothingorigin.Activities.BaseActivity;
-import si.cit.clothingorigin.Activities.CodeScannerActivity;
+import com.google.gson.Gson;
+
+import si.cit.clothingorigin.Blockchain.BlockchainConnector;
+import si.cit.clothingorigin.Interfaces.ContractResultListener;
+import si.cit.clothingorigin.Objects.Product;
 import timber.log.Timber;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
@@ -24,8 +22,7 @@ public class CitApp extends Application{
     private static final String ApiUserAgentBase = "cit-";
 
     private static CitApp instance = null;
-
-    private BaseActivity activeActivity = null;
+    private BlockchainConnector mBlockchainConnector = null;
 
     @Override
     public void onCreate() {
@@ -36,18 +33,37 @@ public class CitApp extends Application{
         Timber.plant(new Timber.DebugTree());
 
         Timber.i("onCreate");
+
+
+        mBlockchainConnector = new BlockchainConnector(this);
+        String bcClientVersion = mBlockchainConnector.getRemoteClientVersion();
+        Timber.i("Blockchain client: "+bcClientVersion);
+
+        mBlockchainConnector.getProduct(3,new ContractResultListener() {
+            @Override
+            public void onContractResult(Object resultObject, boolean success) {
+                if(success) {
+                    Product product = (Product)resultObject;
+                    product.fetchProductionChain();
+                    Gson gson = new Gson();
+                    Timber.i("Contract result: " + gson.toJson(product));
+                }else{
+                    Timber.i("Contract result failed!");
+                }
+            }
+        });
     }
 
     public static CitApp getInstance() {
         return instance;
     }
 
-    public static void setInstance(CitApp instance){
-        CitApp.instance=instance;
+    public BlockchainConnector getBlockchainConnector(){
+        return mBlockchainConnector;
     }
 
-    public void setActiveActivity(BaseActivity activity){
-        activeActivity = activity;
+    public static void setInstance(CitApp instance){
+        CitApp.instance=instance;
     }
 
     public String getUserAgent(){
