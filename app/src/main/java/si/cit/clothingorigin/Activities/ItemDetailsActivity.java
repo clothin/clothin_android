@@ -1,6 +1,7 @@
 package si.cit.clothingorigin.Activities;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -8,6 +9,9 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import si.cit.clothingorigin.CitApp;
+import si.cit.clothingorigin.Interfaces.ContractResultListener;
+import si.cit.clothingorigin.Interfaces.ObjectDataChangeListener;
 import si.cit.clothingorigin.Objects.Product;
 import si.cit.clothingorigin.R;
 import si.cit.clothingorigin.views.FontView;
@@ -42,6 +46,11 @@ public class ItemDetailsActivity extends BaseActivity {
     @BindView(R.id.product_soldBy)
     FontView productSeler;
 
+    @BindView(R.id.production_chain_list)
+    RecyclerView productionChainRecyclerView;
+
+
+
     private Product product = Product.fakeProduct0();
 
     @Override
@@ -51,9 +60,24 @@ public class ItemDetailsActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        String productId = getIntent().getStringExtra("product_id");
+        final Long productId = getIntent().getLongExtra("product_id",0);
 
-        //TODO get real product data from BC
+        if(productId>0){
+            //TODO get real product data from BC
+            CitApp.getInstance().getBlockchainConnector().getProduct(productId, new ContractResultListener() {
+                @Override
+                public void onContractResult(Object resultObject, boolean success) {
+                    product = (Product)resultObject;
+                    product.fetchProductionChain(new ObjectDataChangeListener() {
+                        @Override
+                        public void onDataChange(Object object) {
+                            product = (Product)object;
+                            initProductChainList();
+                        }
+                    });
+                }
+            });
+        }
 
         init();
     }
@@ -72,5 +96,8 @@ public class ItemDetailsActivity extends BaseActivity {
         productColor.setText(product.color);
         productMaterials.setText(product.materials);
         productSeler.setText(product.sold_by);
+    }
+
+    private void initProductChainList(){
     }
 }
