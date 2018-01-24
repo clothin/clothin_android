@@ -3,9 +3,7 @@ package si.cit.clothingorigin.Blockchain;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
@@ -32,7 +30,7 @@ import timber.log.Timber;
 
 public class BlockchainConnector {
 
-    private static final String contractAddress = "0x0919664105f078b677bee47332730233bbf01309";
+    private static final String contractAddress = "0x5dd26a62db3b73fd984b6d14ad8511ed3c29adf7";
 
     private Context mContext;
     private Web3j web3j;
@@ -42,16 +40,15 @@ public class BlockchainConnector {
         mContext = context;
         try {
             web3j = Web3jFactory.build(new HttpService("http://178.62.45.240:8545"));
-            Credentials credentials = WalletUtils.loadCredentials("test", getWalletFile());
+            final File walletFile = getWalletFile();
+            //Credentials credentials = WalletUtils.loadCredentials("test", walletFile);
+            Credentials credentials1 = Credentials.create("35422515660277182308253797447660852175380398836676478606475581938674196088398");
             Timber.i("Credentials loaded!");
 
-            contract =  ClothingTrackingV6.load(mContext,contractAddress, web3j, credentials, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT);
+            contract =  ClothingTrackingV6.load(mContext,contractAddress, web3j, credentials1, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT);
             String contractAddress = contract.getContractAddress();
             Timber.i("Contract deployed to address "+contractAddress);
-
-        }catch (CipherException e){
-            e.printStackTrace();
-        }catch (IOException e){
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

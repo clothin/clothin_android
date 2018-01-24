@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/list_row_bg"
-            android:padding="20dp"
+            android:padding="16dp"
+            android:layout_marginBottom="5dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                 >
                 <ImageView
                     android:id="@+id/product_picture"
-                    android:layout_width="125dp"
+                    android:layout_width="100dp"
                     android:layout_height="125dp"
                     android:scaleType="fitStart"
                     android:layout_gravity="center"
@@ -41,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     >
                     <si.cit.clothingorigin.views.FontView
                         android:id="@+id/product_title"
@@ -164,6 +165,77 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
+            android:background="@drawable/list_row_bg"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <si.cit.clothingorigin.views.FontView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="ECO Score: "
+                    app:customFont="LatoHeavy"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    />
+                <si.cit.clothingorigin.views.FontView
+                    android:id="@+id/product_eco_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="10/30"
+                    app:customFont="LatoMedium"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:id="@+id/product_score_recycle"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_weight="1"
+                    tools:src="@drawable/ic_emoji_good"
+                    />
+                <ImageView
+                    android:id="@+id/product_score_air"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_weight="1"
+                    tools:src="@drawable/ic_emoji_neutral"
+                    />
+                <ImageView
+                    android:id="@+id/product_score_water"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_weight="1"
+                    tools:src="@drawable/ic_emoji_bad"
+                    />
+            </LinearLayout>
+
+            <si.cit.clothingorigin.views.FontView
+                android:id="@+id/product_eco_reward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="ECO reward: 10 CLO"
+                android:gravity="center"
+                app:customFont="LatoHeavy"
+                />
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/production_chain_list"
             android:layout_width="match_parent"

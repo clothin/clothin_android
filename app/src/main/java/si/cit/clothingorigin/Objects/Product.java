@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 
 import org.web3j.tuples.generated.Tuple2;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import si.cit.clothingorigin.CitApp;
 import si.cit.clothingorigin.Interfaces.ContractResultListener;
@@ -24,6 +26,7 @@ public class Product {
     public long id;
     public String title, size, color, price, picture_url, sold_by, materials;
     public List<Producer> production_chain = new ArrayList<>();
+    public int productionScore = 0;
 
     public void fetchProductionChain(final ObjectDataChangeListener listener){
         CitApp.getInstance().getBlockchainConnector().getProductProductionChainInfo(this.id, new ContractResultListener() {
@@ -31,22 +34,24 @@ public class Product {
             public void onContractResult(Object resultObject, boolean success) {
                 if(success) {
                     Tuple2 tuple2 = (Tuple2) resultObject;
+                    productionScore = Integer.valueOf(tuple2.getValue2().toString());
                     String trailString = (String)tuple2.getValue1();
                     String[] trailNodeStrings = trailString.split(";");
                     for (String s:trailNodeStrings) {
-                        String[] producerValues = s.split(":");
+                        String[] producerValues = s.split("#");
                         Producer producer = new Producer(
                                 producerValues[1],
                                 producerValues[0],
                                 producerValues[2],
-                                producerValues[4]+":"+producerValues[5]);
+                                producerValues[4]
+                        );
                         production_chain.add(producer);
                         Gson gson = new Gson();
                         Timber.i("Product trail node: " + gson.toJson(producer));
                     }
                     //Gson gson = new Gson();
                     //Timber.i("Product trail result: " + gson.toJson(tuple2));
-                    listener.onDataChange(this);
+                    listener.onDataChange(production_chain);
                 }else{
                     Timber.i("Product trail result failed!");
                 }
@@ -64,6 +69,8 @@ public class Product {
         product.materials = "Cotton (98%), Polyester (2%)";
         product.picture_url = "http://lp.hm.com/hmprod?set=source%5B%2Fenvironment%2F2017%2F10J_0636_003R.jpg%5D%2Cmedia_type%5BFASHION_FRONT%5D%2Ctshirt_size%5BL%5D%2Cquality%5BH%5D%2Csr_x%5B0%5D%2Csr_y%5B-1%5D%2Csr_height%5B4114%5D%2Csr_width%5B3519%5D%2Chmver%5B0%5D&call=url%5Bfile%3A%2Flegacy%2Fv1%2Fproduct.chain%5D";
 
+        product.productionScore = random(5,30);
+
         product.production_chain.add(Producer.fakeProducer(0));
         product.production_chain.add(Producer.fakeProducer(1));
         product.production_chain.add(Producer.fakeProducer(2));
@@ -71,6 +78,11 @@ public class Product {
         product.production_chain.add(Producer.fakeProducer(4));
 
         return product;
+    }
+
+    public static int random(int low, int high){
+        Random r = new Random();
+        return r.nextInt(high-low) + low;
     }
 
 }

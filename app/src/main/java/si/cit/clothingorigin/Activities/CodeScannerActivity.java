@@ -2,6 +2,8 @@ package si.cit.clothingorigin.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import si.cit.clothingorigin.R;
 import timber.log.Timber;
 
 public class CodeScannerActivity extends BaseActivity implements ZXingScannerView.ResultHandler {
@@ -19,6 +22,8 @@ public class CodeScannerActivity extends BaseActivity implements ZXingScannerVie
     public static final int APP_CAMERA_PERMISSION_REQUEST_CODE = 0;
 
     private ZXingScannerView mScannerView;
+
+    private boolean ending = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +44,22 @@ public class CodeScannerActivity extends BaseActivity implements ZXingScannerVie
     @Override
     public void onResume() {
         super.onResume();
-        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-        mScannerView.startCamera();          // Start camera on resume
+        if(!ending) {
+            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+            mScannerView.startCamera();          // Start camera on resume
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mScannerView.stopCamera();           // Stop camera on pause
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mScannerView.stopCamera();
     }
 
     @Override
@@ -63,7 +76,23 @@ public class CodeScannerActivity extends BaseActivity implements ZXingScannerVie
         setResult(RESULT_OK,scanResult);
         finish();
 
-        // If you would like to resume scanning, call this method below:
-        //mScannerView.resumeCameraPreview(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.code_scanner_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.action_fake_item_scan){
+            ending = true;
+            Intent scanResult = new Intent();
+            scanResult.putExtra("scan_data","CLO_0");
+            setResult(RESULT_OK,scanResult);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

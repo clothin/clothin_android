@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import si.cit.clothingorigin.Blockchain.BlockchainConnector;
 import si.cit.clothingorigin.Interfaces.ContractResultListener;
+import si.cit.clothingorigin.Interfaces.ObjectDataChangeListener;
 import si.cit.clothingorigin.Objects.Product;
 import timber.log.Timber;
 
@@ -34,24 +35,33 @@ public class CitApp extends Application{
 
         Timber.i("onCreate");
 
+        try {
+            mBlockchainConnector = new BlockchainConnector(this);
+            String bcClientVersion = mBlockchainConnector.getRemoteClientVersion();
+            Timber.i("Blockchain client: " + bcClientVersion);
 
-        mBlockchainConnector = new BlockchainConnector(this);
-        String bcClientVersion = mBlockchainConnector.getRemoteClientVersion();
-        Timber.i("Blockchain client: "+bcClientVersion);
-
-        mBlockchainConnector.getProduct(3,new ContractResultListener() {
-            @Override
-            public void onContractResult(Object resultObject, boolean success) {
-                if(success) {
-                    Product product = (Product)resultObject;
-                    product.fetchProductionChain();
-                    Gson gson = new Gson();
-                    Timber.i("Contract result: " + gson.toJson(product));
-                }else{
-                    Timber.i("Contract result failed!");
+            mBlockchainConnector.getProduct(3,new ContractResultListener() {
+                @Override
+                public void onContractResult(Object resultObject, boolean success) {
+                    if(success) {
+                        final Product product = (Product)resultObject;
+                        product.fetchProductionChain(new ObjectDataChangeListener() {
+                            @Override
+                            public void onDataChange(Object object) {
+                                Gson gson = new Gson();
+                                Timber.i("Product chain result: " + gson.toJson(product));
+                            }
+                        });
+                        Gson gson = new Gson();
+                        Timber.i("Contract result: " + gson.toJson(product));
+                    }else{
+                        Timber.i("Contract result failed!");
+                    }
                 }
-            }
-        });
+            });
+        }catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
     }
 
     public static CitApp getInstance() {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_row_bg"
+    android:padding="3dp"
+    android:layout_marginBottom="2dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        >
+        <si.cit.clothingorigin.views.FontView
+            android:id="@+id/producer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8pt"
+            tools:text="Cotton Inc."
+            app:customFont="LatoHeavy"
+            />
+
+        <si.cit.clothingorigin.views.FontView
+            android:id="@+id/producer_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="6pt"
+            tools:text="China"
+            app:customFont="LatoItalic"
+            />
+
+        <si.cit.clothingorigin.views.FontView
+            android:id="@+id/producer_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="6pt"
+            tools:text="Cotton production"
+            app:customFont="LatoItalic"
+            />
+
+    </LinearLayout>
+</RelativeLayout>
